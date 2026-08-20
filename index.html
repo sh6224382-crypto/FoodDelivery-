@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Snackify ⚡ Indian Street Food & Snack Delivery</title>
+  <meta name="description" content="Order sizzling Samosas, Pani Puri, Pav Bhaji, Masala Dosa, Warm Jalebis, and Kulhad Chai delivered hot to your door in 15 minutes!">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Top Announcement Bar -->
+  <div class="announcement-bar">
+    <div class="announcement-content">
+      <span>🔥 <strong>DESI SPECIAL:</strong> Get 20% OFF your order! Use code <span class="promo-badge" onclick="copyPromo('SNACK20')">SNACK20</span></span>
+      <span class="announcement-divider">|</span>
+      <span>⚡ Average Delivery: <strong>14.5 Mins</strong></span>
+    </div>
+  </div>
+
+  <!-- Main Navigation Header -->
+  <header class="site-header" id="site-header">
+    <div class="header-container">
+      
+      <!-- Brand Logo -->
+      <a href="#" class="brand-logo" onclick="resetAllFilters(); return false;">
+        <div class="logo-icon"><i class="fa-solid fa-bolt-lightning"></i></div>
+        <div class="logo-text">
+          <span class="logo-name">Snackify</span>
+          <span class="logo-tagline">DESI SNACK EXPRESS</span>
+        </div>
+      </a>
+
+      <!-- Location Selector -->
+      <div class="location-picker" id="location-picker" onclick="openLocationModal()" title="Change delivery location">
+        <i class="fa-solid fa-location-dot location-icon"></i>
+        <div class="location-info">
+          <span class="location-label">Deliver To</span>
+          <span class="location-address" id="current-address">742 Park Road, Connaught Place ▾</span>
+        </div>
+      </div>
+
+      <!-- Search Bar Desktop -->
+      <div class="header-search">
+        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+        <input type="text" id="global-search-input" placeholder="Search Samosa, Pani Puri, Pav Bhaji, Chai..." autocomplete="off">
+        <button class="clear-search-btn" id="clear-search-btn" style="display: none;"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <!-- Header Actions -->
+      <div class="header-actions">
+        <!-- Theme Toggle -->
+        <button class="icon-action-btn" id="theme-toggle-btn" aria-label="Toggle Theme" title="Toggle Light/Dark Theme">
+          <i class="fa-solid fa-sun light-icon"></i>
+          <i class="fa-solid fa-moon dark-icon"></i>
+        </button>
+
+        <!-- Order History Button -->
+        <button class="icon-action-btn" id="history-btn" onclick="openHistoryModal()" aria-label="Order History" title="Past Orders">
+          <i class="fa-solid fa-clock-rotate-left"></i>
+        </button>
+
+        <!-- Favorites Button -->
+        <button class="icon-action-btn" id="favorites-btn" aria-label="Wishlist" title="Your Favorites">
+          <i class="fa-regular fa-heart"></i>
+          <span class="action-badge" id="wishlist-count">0</span>
+        </button>
+
+        <!-- Cart Button -->
+        <button class="cart-trigger-btn" id="cart-trigger-btn" aria-label="Open Cart">
+          <div class="cart-icon-wrapper">
+            <i class="fa-solid fa-basket-shopping"></i>
+            <span class="cart-badge" id="cart-badge-count">0</span>
+          </div>
+          <div class="cart-total-info">
+            <span class="cart-label">My Cart</span>
+            <span class="cart-amount" id="cart-header-total">₹0</span>
+          </div>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Mobile Search Bar -->
+    <div class="mobile-search-wrapper">
+      <div class="header-search">
+        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+        <input type="text" id="mobile-search-input" placeholder="Search Samosa, Dhokla, Jalebi, Chaat..." autocomplete="off">
+      </div>
+    </div>
+  </header>
+
+  <!-- Main App Layout -->
+  <main class="main-wrapper">
+
+    <!-- Hero Showcase Section -->
+    <section class="hero-banner">
+      <div class="hero-content">
+        <div class="hero-badge"><i class="fa-solid fa-fire"></i> Authentic Indian Street Snacks</div>
+        <h1 class="hero-title">Crispy Samosas, <br><span class="highlight-text">Tangy Golgappas!</span></h1>
+        <p class="hero-subtitle">Piping hot Samosas, butter-loaded Pav Bhaji, fresh Jalebi, & Kulhad Masala Chai delivered ultra-fast right to your doorstep.</p>
+        
+        <div class="hero-pills">
+          <div class="hero-pill"><i class="fa-solid fa-truck-fast"></i> Free Delivery > ₹200</div>
+          <div class="hero-pill"><i class="fa-solid fa-temperature-arrow-up"></i> 100% Hot & Fresh Desi Flavour</div>
+          <div class="hero-pill"><i class="fa-solid fa-star"></i> 4.9/5 Rating (25k+ Reviews)</div>
+        </div>
+
+        <div class="hero-cta-group">
+          <button class="btn btn-primary" onclick="scrollToCatalog()">Explore Snacks <i class="fa-solid fa-arrow-down"></i></button>
+          <button class="btn btn-secondary" onclick="filterByCategory('spicy')">🌶️ Spicy Chaat & Samosa</button>
+          <button class="btn btn-secondary" onclick="filterByCategory('sweet')">🍯 Jalebi & Sweets</button>
+        </div>
+      </div>
+
+      <div class="hero-graphic">
+        <div class="hero-image-card">
+          <img src="images/samosa.jpg" alt="Sizzling Crispy Samosas" class="hero-img">
+          <div class="hero-floating-badge badge-top-left">
+            <i class="fa-solid fa-crown"></i> #1 Best Seller: Crispy Samosas
+          </div>
+          <div class="hero-floating-badge badge-bottom-right">
+            <i class="fa-solid fa-clock"></i> Delivery in 12 mins
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Filter & Toolbar Section -->
+    <section class="catalog-section" id="catalog-section">
+      
+      <!-- Category Nav Carousel -->
+      <div class="category-nav-wrapper">
+        <div class="category-nav" id="category-nav">
+          <button class="category-chip active" data-category="all">
+            <span class="chip-icon">🌐</span>
+            <span class="chip-label">All Snacks</span>
+          </button>
+          <button class="category-chip" data-category="spicy">
+            <span class="chip-icon">🌶️</span>
+            <span class="chip-label">Spicy Chaat & Fried</span>
+          </button>
+          <button class="category-chip" data-category="sweet">
+            <span class="chip-icon">🍯</span>
+            <span class="chip-label">Mithai & Sweets</span>
+          </button>
+          <button class="category-chip" data-category="cheese">
+            <span class="chip-icon">🧈</span>
+            <span class="chip-label">Butter & Cheese</span>
+          </button>
+          <button class="category-chip" data-category="healthy">
+            <span class="chip-icon">🥗</span>
+            <span class="chip-label">Light & Steamed</span>
+          </button>
+          <button class="category-chip" data-category="drinks">
+            <span class="chip-icon">☕</span>
+            <span class="chip-label">Chai & Drinks</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Controls & Filter Toolbar -->
+      <div class="toolbar">
+        <div class="dietary-tags" id="dietary-tags">
+          <button class="tag-chip" data-tag="bestseller"><i class="fa-solid fa-fire"></i> Best Sellers</button>
+          <button class="tag-chip" data-tag="vegan">🌱 Pure Veg</button>
+          <button class="tag-chip" data-tag="gluten-free">🌾 Gluten Free</button>
+          <button class="tag-chip" data-tag="quick">⚡ Under 15 Mins</button>
+        </div>
+
+        <div class="toolbar-right">
+          <!-- Price Range Slider -->
+          <div class="range-filter-box">
+            <label for="price-range">Max Price: <strong id="price-range-val">₹250</strong></label>
+            <input type="range" id="price-range" min="40" max="250" step="10" value="250" oninput="handlePriceRange(this.value)">
+          </div>
+
+          <!-- Sort Dropdown -->
+          <div class="sort-wrapper">
+            <label for="sort-select"><i class="fa-solid fa-arrow-down-short-wide"></i> Sort:</label>
+            <select id="sort-select" class="sort-select">
+              <option value="recommended">Recommended</option>
+              <option value="popular">Most Popular</option>
+              <option value="price-low">Price: Low to High</option>
+              <option value="price-high">Price: High to Low</option>
+              <option value="rating">Highest Rated</option>
+              <option value="calories">Lowest Calories</option>
+            </select>
+          </div>
+
+          <!-- View Layout Toggle -->
+          <div class="view-toggle">
+            <button class="view-btn active" id="view-grid-btn" title="Grid View"><i class="fa-solid fa-border-all"></i></button>
+            <button class="view-btn" id="view-list-btn" title="List View"><i class="fa-solid fa-list"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Active Filters Status Bar -->
+      <div class="filter-status-bar" id="filter-status-bar" style="display: none;">
+        <span class="status-text" id="status-text">Filtering results...</span>
+        <button class="reset-filters-btn" id="reset-filters-btn"><i class="fa-solid fa-arrow-rotate-left"></i> Reset All Filters</button>
+      </div>
+
+      <!-- Products Grid -->
+      <div class="product-grid grid-layout" id="product-grid">
+        <!-- Dynamically populated via JavaScript -->
+      </div>
+
+      <!-- Empty State -->
+      <div class="empty-state" id="empty-state" style="display: none;">
+        <div class="empty-icon">🔍</div>
+        <h3>No delicious snacks match your search</h3>
+        <p>Try searching for another Indian snack keyword or resetting your filters.</p>
+        <button class="btn btn-primary" onclick="resetAllFilters()">Reset Filters</button>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <div class="brand-logo">
+          <div class="logo-icon"><i class="fa-solid fa-bolt-lightning"></i></div>
+          <span class="logo-name">Snackify</span>
+        </div>
+        <p>Your instant Indian snack delivery app. Satisfying evening tea time, party street chaat, and sweet cravings with lightning speed.</p>
+        <div class="social-links">
+          <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+          <a href="#" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+        </div>
+      </div>
+
+      <div class="footer-column">
+        <h4>Popular Categories</h4>
+        <ul>
+          <li><a href="#" onclick="filterByCategory('spicy'); return false;">Samosa & Golgappas</a></li>
+          <li><a href="#" onclick="filterByCategory('cheese'); return false;">Amul Butter Pav Bhaji</a></li>
+          <li><a href="#" onclick="filterByCategory('sweet'); return false;">Hot Rabri Jalebi</a></li>
+          <li><a href="#" onclick="filterByCategory('drinks'); return false;">Kulhad Masala Chai</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-column">
+        <h4>Customer Care</h4>
+        <ul>
+          <li><a href="#" onclick="showHelpModal(); return false;">15-Min Delivery Guarantee</a></li>
+          <li><a href="#" onclick="openHistoryModal(); return false;">Track Past Orders</a></li>
+          <li><a href="#" onclick="showHelpModal(); return false;">FAQs & Support</a></li>
+          <li><a href="#" onclick="showHelpModal(); return false;">Hygiene & Allergen Info</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-column newsletter">
+        <h4>Get Desi Perks 🎁</h4>
+        <p>Subscribe for secret coupon codes & new snack drops!</p>
+        <form onsubmit="handleSubscribe(event)" class="newsletter-form">
+          <input type="email" placeholder="Enter your email" required>
+          <button type="submit" class="btn btn-primary"><i class="fa-solid fa-paper-plane"></i></button>
+        </form>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <p>© 2026 Snackify India Inc. All rights reserved. Made with ❤️ for street food lovers.</p>
+    </div>
+  </footer>
+
+  <!-- ==================== MODALS & DRAWERS ==================== -->
+
+  <!-- 1. ITEM DETAIL MODAL -->
+  <div class="modal-backdrop" id="detail-modal-backdrop">
+    <div class="modal-card detail-modal" id="detail-modal">
+      <button class="modal-close-btn" onclick="closeDetailModal()"><i class="fa-solid fa-xmark"></i></button>
+      
+      <div class="detail-modal-content">
+        <div class="detail-image-wrapper">
+          <img id="modal-item-img" src="" alt="Snack Image">
+          <div class="detail-badge" id="modal-item-category-badge">Category</div>
+          <button class="modal-fav-btn" id="modal-fav-btn" title="Add to Favorites"><i class="fa-regular fa-heart"></i></button>
+        </div>
+
+        <div class="detail-info-wrapper">
+          <div class="detail-header">
+            <h2 id="modal-item-title">Snack Title</h2>
+            <div class="detail-meta">
+              <span class="detail-price" id="modal-item-price">₹0</span>
+              <span class="detail-rating" id="modal-item-rating"><i class="fa-solid fa-star"></i> 4.9</span>
+              <span class="detail-calories" id="modal-item-calories"><i class="fa-solid fa-fire-flame-curved"></i> 340 kcal</span>
+            </div>
+          </div>
+
+          <p class="detail-desc" id="modal-item-desc">Snack detailed description will appear here.</p>
+
+          <!-- Tags -->
+          <div class="detail-tags-list" id="modal-item-tags">
+            <!-- Dynamic tags -->
+          </div>
+
+          <!-- Customization Section -->
+          <div class="customization-section">
+            <h3><i class="fa-solid fa-sliders"></i> Customize Your Order</h3>
+            
+            <!-- Dip / Sauce Options -->
+            <div class="options-group">
+              <label class="group-title">Choose Chutney / Sauce (Included free):</label>
+              <div class="options-grid" id="modal-dip-options">
+                <!-- Radio choices -->
+              </div>
+            </div>
+
+            <!-- Spice Level -->
+            <div class="options-group">
+              <label class="group-title">Spice Preference:</label>
+              <div class="spice-selector">
+                <button type="button" class="spice-btn active" data-spice="Mild">Mild 🟢</button>
+                <button type="button" class="spice-btn" data-spice="Medium">Medium 🟡</button>
+                <button type="button" class="spice-btn" data-spice="Extra Teekha">Extra Teekha 🔴🔥</button>
+              </div>
+            </div>
+
+            <!-- Special Instructions -->
+            <div class="options-group">
+              <label class="group-title" for="special-instructions">Special Request (Optional):</label>
+              <input type="text" id="special-instructions" class="form-input" placeholder="e.g. Extra chutney, less spicy, extra onion...">
+            </div>
+          </div>
+
+          <!-- Modal Action Bar -->
+          <div class="detail-action-bar">
+            <div class="quantity-stepper large">
+              <button onclick="decrementModalQty()"><i class="fa-solid fa-minus"></i></button>
+              <span id="modal-qty-display">1</span>
+              <button onclick="incrementModalQty()"><i class="fa-solid fa-plus"></i></button>
+            </div>
+            
+            <button class="btn btn-primary btn-add-modal" id="modal-add-to-cart-btn" onclick="addModalItemToCart()">
+              <span>Add To Cart</span>
+              <span id="modal-calculated-total">₹0</span>
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. SLIDE-OUT CART DRAWER -->
+  <div class="cart-drawer-backdrop" id="cart-backdrop" onclick="closeCartDrawer()"></div>
+  <aside class="cart-drawer" id="cart-drawer">
+    
+    <div class="cart-drawer-header">
+      <div class="cart-drawer-title">
+        <i class="fa-solid fa-basket-shopping"></i>
+        <h2>Your Desi Order</h2>
+        <span class="cart-item-count" id="cart-drawer-count">0 items</span>
+      </div>
+      <button class="cart-close-btn" onclick="closeCartDrawer()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+
+    <!-- Free Delivery Progress Bar -->
+    <div class="delivery-progress-card">
+      <div class="progress-info">
+        <span id="progress-text">Add <strong>₹200</strong> for FREE Express Delivery 🚚</span>
+      </div>
+      <div class="progress-bar-bg">
+        <div class="progress-bar-fill" id="progress-bar-fill" style="width: 0%;"></div>
+      </div>
+    </div>
+
+    <!-- Cart Body -->
+    <div class="cart-drawer-body" id="cart-items-container">
+      <!-- Dynamic list of cart items or empty state -->
+    </div>
+
+    <!-- Recommended Add-ons Carousel inside Cart -->
+    <div class="cart-addons-section" id="cart-addons-section">
+      <span class="addons-title">🔥 Popular Snack Pairings:</span>
+      <div class="addons-row" id="cart-addons-row">
+        <!-- Dynamic addon chips -->
+      </div>
+    </div>
+
+    <!-- Cart Footer -->
+    <div class="cart-drawer-footer">
+      
+      <!-- Quick Coupon Offer Button -->
+      <div class="view-coupons-trigger" onclick="openCouponsModal()">
+        <span><i class="fa-solid fa-tags"></i> View Coupons & Desi Offers (3)</span>
+        <i class="fa-solid fa-chevron-right"></i>
+      </div>
+
+      <!-- Promo Code Section -->
+      <div class="promo-section">
+        <div class="promo-input-group" id="promo-input-group">
+          <i class="fa-solid fa-ticket promo-icon"></i>
+          <input type="text" id="promo-code-input" placeholder="Promo code (e.g. SNACK20)" uppercase>
+          <button class="btn-apply-promo" onclick="applyPromoCode()">Apply</button>
+        </div>
+        <div class="active-promo-pill" id="active-promo-pill" style="display: none;">
+          <span id="promo-applied-text">SNACK20 (20% OFF)</span>
+          <button onclick="removePromoCode()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+      </div>
+
+      <!-- Calculation Breakdown -->
+      <div class="cart-summary-table">
+        <div class="summary-row">
+          <span>Subtotal</span>
+          <span id="cart-subtotal-val">₹0</span>
+        </div>
+        <div class="summary-row">
+          <span>GST (5%)</span>
+          <span id="cart-tax-val">₹0</span>
+        </div>
+        <div class="summary-row">
+          <span>Delivery Fee</span>
+          <span id="cart-delivery-val">₹30</span>
+        </div>
+        <div class="summary-row discount-row" id="discount-row" style="display: none;">
+          <span>Promo Discount</span>
+          <span id="cart-discount-val">-₹0</span>
+        </div>
+        <div class="summary-row total-row">
+          <span>Total Amount</span>
+          <span id="cart-grand-total">₹0</span>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="cart-footer-actions">
+        <button class="btn btn-secondary btn-clear" onclick="clearCart()"><i class="fa-solid fa-trash-can"></i> Clear</button>
+        <button class="btn btn-primary btn-checkout" id="checkout-btn" onclick="openCheckoutModal()">
+          <span>Proceed To Checkout</span>
+          <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </div>
+
+    </div>
+  </aside>
+
+  <!-- 3. CHECKOUT MODAL -->
+  <div class="modal-backdrop" id="checkout-modal-backdrop">
+    <div class="modal-card checkout-modal" id="checkout-modal">
+      <button class="modal-close-btn" onclick="closeCheckoutModal()"><i class="fa-solid fa-xmark"></i></button>
+      
+      <div class="checkout-header">
+        <h2><i class="fa-solid fa-shield-halved"></i> Fast Express Checkout</h2>
+        <div class="checkout-steps">
+          <div class="step-item active" id="step-1-dot">1. Delivery</div>
+          <div class="step-item" id="step-2-dot">2. Payment</div>
+          <div class="step-item" id="step-3-dot">3. Confirmation</div>
+        </div>
+      </div>
+
+      <div class="checkout-body">
+        <form id="checkout-form" onsubmit="handlePlaceOrder(event)">
+          
+          <!-- STEP 1: DELIVERY ADDRESS -->
+          <div class="checkout-step-panel active" id="checkout-step-1">
+            <h3><i class="fa-solid fa-house"></i> Delivery Address</h3>
+            
+            <div class="form-grid">
+              <div class="form-group full-width">
+                <label>Full Name *</label>
+                <input type="text" class="form-input" id="checkout-name" value="Rohan Sharma" required>
+              </div>
+
+              <div class="form-group full-width">
+                <label>Street Address & Flat No *</label>
+                <input type="text" class="form-input" id="checkout-street" value="742 Park Road, Connaught Place, Apt 4B" required>
+              </div>
+
+              <div class="form-group">
+                <label>Phone Number *</label>
+                <input type="tel" class="form-input" id="checkout-phone" value="+91 98765 43210" required>
+              </div>
+
+              <div class="form-group">
+                <label>Delivery Speed</label>
+                <select class="form-select" id="delivery-speed-select">
+                  <option value="express">⚡ Priority Express (12-15 Mins)</option>
+                  <option value="standard">🚚 Standard Delivery (25-30 Mins)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="step-nav-buttons">
+              <button type="button" class="btn btn-primary btn-next" onclick="goToCheckoutStep(2)">Next: Payment Method <i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+          </div>
+
+          <!-- STEP 2: PAYMENT METHOD -->
+          <div class="checkout-step-panel" id="checkout-step-2">
+            <h3><i class="fa-solid fa-credit-card"></i> Payment Method</h3>
+            
+            <div class="payment-methods-grid">
+              <label class="payment-card-option active">
+                <input type="radio" name="payment-method" value="upi" checked onclick="togglePaymentFields('upi')">
+                <div class="payment-card-content">
+                  <i class="fa-solid fa-mobile-screen-button payment-icon"></i>
+                  <span>UPI (GPay / PhonePe / Paytm)</span>
+                </div>
+              </label>
+
+              <label class="payment-card-option">
+                <input type="radio" name="payment-method" value="card" onclick="togglePaymentFields('card')">
+                <div class="payment-card-content">
+                  <i class="fa-solid fa-credit-card payment-icon"></i>
+                  <span>Credit / Debit Card</span>
+                </div>
+              </label>
+
+              <label class="payment-card-option">
+                <input type="radio" name="payment-method" value="cod" onclick="togglePaymentFields('cod')">
+                <div class="payment-card-content">
+                  <i class="fa-solid fa-money-bill-wave payment-icon"></i>
+                  <span>Cash on Delivery</span>
+                </div>
+              </label>
+            </div>
+
+            <!-- Card/UPI Fields -->
+            <div class="card-details-box" id="card-fields-box">
+              <div class="form-group full-width">
+                <label>Enter UPI ID or VPA</label>
+                <div class="input-with-icon">
+                  <input type="text" class="form-input" value="rohan@upi" placeholder="username@upi">
+                  <i class="fa-solid fa-qrcode"></i>
+                </div>
+              </div>
+            </div>
+
+            <div class="checkout-summary-mini">
+              <span>Amount to Pay:</span>
+              <strong id="checkout-total-val">₹0</strong>
+            </div>
+
+            <div class="step-nav-buttons">
+              <button type="button" class="btn btn-secondary" onclick="goToCheckoutStep(1)"><i class="fa-solid fa-arrow-left"></i> Back</button>
+              <button type="submit" class="btn btn-primary btn-place-order" id="place-order-submit-btn">
+                <span><i class="fa-solid fa-lock"></i> Confirm & Pay Now</span>
+              </button>
+            </div>
+          </div>
+
+        </form>
+
+        <!-- STEP 3: ORDER CONFIRMED SCREEN -->
+        <div class="checkout-step-panel" id="checkout-step-3">
+          <div class="order-success-card">
+            <div class="success-animation-wrapper">
+              <div class="checkmark-circle">
+                <i class="fa-solid fa-check"></i>
+              </div>
+            </div>
+
+            <h2>Order Confirmed & Sizzling! 🎉</h2>
+            <p class="success-subtitle">Order <strong id="confirmed-order-id">#SNK-94821</strong> is being prepared by our Halwai chef right now.</p>
+
+            <!-- Live Animated Delivery Route Graphic -->
+            <div class="animated-route-box">
+              <div class="route-node text-left"><i class="fa-solid fa-kitchen-set"></i> Kitchen</div>
+              <div class="route-track">
+                <div class="scooter-mover" id="scooter-mover">🛵</div>
+              </div>
+              <div class="route-node text-right"><i class="fa-solid fa-house-user"></i> You</div>
+            </div>
+
+            <!-- Countdown Timer Card -->
+            <div class="live-tracker-card">
+              <div class="tracker-header">
+                <span>⚡ Estimated Arrival Time:</span>
+                <span class="timer-digits" id="live-countdown-timer">14:59</span>
+              </div>
+              
+              <!-- Delivery Steps Progress -->
+              <div class="tracker-steps">
+                <div class="track-step completed">
+                  <div class="step-node"><i class="fa-solid fa-check"></i></div>
+                  <span>Order Placed</span>
+                </div>
+                <div class="track-step active">
+                  <div class="step-node"><i class="fa-solid fa-fire"></i></div>
+                  <span>Prep Kitchen</span>
+                </div>
+                <div class="track-step">
+                  <div class="step-node"><i class="fa-solid fa-motorcycle"></i></div>
+                  <span>On The Way</span>
+                </div>
+                <div class="track-step">
+                  <div class="step-node"><i class="fa-solid fa-box-open"></i></div>
+                  <span>Delivered</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Receipt Breakdown -->
+            <div class="receipt-box" id="confirmation-receipt-box">
+              <!-- Dynamically populated receipt -->
+            </div>
+
+            <div class="success-actions">
+              <button class="btn btn-secondary" onclick="printReceipt()"><i class="fa-solid fa-print"></i> Print Receipt</button>
+              <button class="btn btn-primary" onclick="finishOrderAndReset()"><i class="fa-solid fa-rotate-right"></i> Order More Snacks</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. FAVORITES / WISHLIST DRAWER -->
+  <div class="modal-backdrop" id="wishlist-modal-backdrop">
+    <div class="modal-card wishlist-modal" id="wishlist-modal">
+      <div class="modal-header">
+        <h2><i class="fa-solid fa-heart" style="color: #FF5252;"></i> Your Favorite Snacks</h2>
+        <button class="modal-close-btn" onclick="closeWishlistModal()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="wishlist-body" id="wishlist-items-container">
+        <!-- Dynamically rendered list of favorites -->
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. LOCATION SELECTOR MODAL -->
+  <div class="modal-backdrop" id="location-modal-backdrop">
+    <div class="modal-card location-modal" id="location-modal">
+      <div class="modal-header">
+        <h2><i class="fa-solid fa-location-dot" style="color: var(--primary-coral);"></i> Delivery Location</h2>
+        <button class="modal-close-btn" onclick="closeLocationModal()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="location-modal-body">
+        <p class="modal-subtext">Choose a saved delivery address or enter a new location:</p>
+
+        <div class="address-options-list">
+          <div class="address-card-option active" onclick="selectLocation('742 Park Road, Connaught Place')">
+            <i class="fa-solid fa-house addr-icon"></i>
+            <div class="addr-details">
+              <strong>Home</strong>
+              <span>742 Park Road, Connaught Place</span>
+            </div>
+            <i class="fa-solid fa-circle-check addr-check"></i>
+          </div>
+
+          <div class="address-card-option" onclick="selectLocation('100 Cyber City, DLF Phase 2')">
+            <i class="fa-solid fa-briefcase addr-icon"></i>
+            <div class="addr-details">
+              <strong>Work Office</strong>
+              <span>100 Cyber City, DLF Phase 2</span>
+            </div>
+            <i class="fa-solid fa-circle-check addr-check"></i>
+          </div>
+
+          <div class="address-card-option" onclick="selectLocation('North Campus, Delhi University')">
+            <i class="fa-solid fa-graduation-cap addr-icon"></i>
+            <div class="addr-details">
+              <strong>University Campus</strong>
+              <span>North Campus, Delhi University</span>
+            </div>
+            <i class="fa-solid fa-circle-check addr-check"></i>
+          </div>
+        </div>
+
+        <div class="custom-address-form">
+          <label>Or enter custom address:</label>
+          <div class="input-with-btn">
+            <input type="text" id="custom-address-input" class="form-input" placeholder="e.g. Bandra West, Mumbai...">
+            <button class="btn btn-primary" onclick="saveCustomLocation()"><i class="fa-solid fa-check"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. COUPONS & OFFERS MODAL -->
+  <div class="modal-backdrop" id="coupons-modal-backdrop">
+    <div class="modal-card coupons-modal" id="coupons-modal">
+      <div class="modal-header">
+        <h2><i class="fa-solid fa-tags" style="color: var(--accent-amber);"></i> Available Desi Deals</h2>
+        <button class="modal-close-btn" onclick="closeCouponsModal()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="coupons-modal-body">
+        <div class="coupon-card" onclick="copyPromo('SNACK20'); closeCouponsModal();">
+          <div class="coupon-badge">20% OFF</div>
+          <div class="coupon-info">
+            <strong>SNACK20</strong>
+            <p>Get 20% discount on any snack order total.</p>
+          </div>
+          <button class="btn btn-secondary btn-apply-card">Apply Code</button>
+        </div>
+
+        <div class="coupon-card" onclick="copyPromo('FREESHIP'); closeCouponsModal();">
+          <div class="coupon-badge free">FREE SHIP</div>
+          <div class="coupon-info">
+            <strong>FREESHIP</strong>
+            <p>Zero delivery fee on all express orders.</p>
+          </div>
+          <button class="btn btn-secondary btn-apply-card">Apply Code</button>
+        </div>
+
+        <div class="coupon-card" onclick="copyPromo('CRUNCH50'); closeCouponsModal();">
+          <div class="coupon-badge fixed">₹50 OFF</div>
+          <div class="coupon-info">
+            <strong>CRUNCH50</strong>
+            <p>Save ₹50.00 instantly on orders over ₹200.</p>
+          </div>
+          <button class="btn btn-secondary btn-apply-card">Apply Code</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. ORDER HISTORY MODAL -->
+  <div class="modal-backdrop" id="history-modal-backdrop">
+    <div class="modal-card history-modal" id="history-modal">
+      <div class="modal-header">
+        <h2><i class="fa-solid fa-clock-rotate-left" style="color: var(--accent-purple);"></i> Your Order History</h2>
+        <button class="modal-close-btn" onclick="closeHistoryModal()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="history-modal-body" id="history-orders-container">
+        <!-- Dynamic list of past orders -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Confetti Canvas for Order Celebration -->
+  <canvas id="confetti-canvas"></canvas>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Mobile Bottom Navigation Bar -->
+  <nav class="mobile-bottom-nav">
+    <button class="mobile-nav-btn active" onclick="scrollToCatalog()">
+      <i class="fa-solid fa-house"></i>
+      <span>Snacks</span>
+    </button>
+    <button class="mobile-nav-btn" onclick="openSearchMobile()">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <span>Search</span>
+    </button>
+    <button class="mobile-nav-btn" onclick="openWishlistModal()">
+      <i class="fa-regular fa-heart"></i>
+      <span class="mobile-badge" id="mobile-fav-count">0</span>
+      <span>Saved</span>
+    </button>
+    <button class="mobile-nav-btn" onclick="openCartDrawer()">
+      <i class="fa-solid fa-basket-shopping"></i>
+      <span class="mobile-badge" id="mobile-cart-count">0</span>
+      <span>Cart</span>
+    </button>
+  </nav>
+
+  <!-- JavaScript App Logic -->
+  <script src="app.js"></script>
+</body>
+</html>
